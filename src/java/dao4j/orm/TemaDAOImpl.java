@@ -34,6 +34,13 @@ public class TemaDAOImpl implements TemaDAO {
         + "idTema, nombre, Curso_idCurso, examen_idexamen "
         + "FROM tema WHERE "
         + "idTema = ? AND Curso_idCurso = ? AND examen_idexamen = ?";
+    
+    
+    private static final String SQL_SELECT_ALL =
+        "SELECT "
+        + "idTema, nombre, Curso_idCurso, examen_idexamen "
+        + "FROM tema"
+        ;
 
     /* SQL to update data */
     private static final String SQL_UPDATE =
@@ -87,6 +94,20 @@ public class TemaDAOImpl implements TemaDAO {
                 return (Tema) results.get(0);
             else
                 return null;
+        }finally {
+            close(rs);
+            close(ps);
+        }
+    }
+    
+    public List<Tema> loadall(Connection conn) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = ps.executeQuery();
+            List results = getResults(rs);
+            return results;
         }finally {
             close(rs);
             close(ps);

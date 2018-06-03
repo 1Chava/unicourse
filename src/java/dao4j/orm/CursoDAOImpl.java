@@ -34,6 +34,11 @@ public class CursoDAOImpl implements CursoDAO {
         + "idCurso, nombre "
         + "FROM curso WHERE "
         + "idCurso = ?";
+    
+        private static final String SQL_SELECT_ALL =
+        "SELECT "
+        + "idCurso, nombre "
+        + "FROM curso ";
 
     /* SQL to update data */
     private static final String SQL_UPDATE =
@@ -83,6 +88,21 @@ public class CursoDAOImpl implements CursoDAO {
                 return (Curso) results.get(0);
             else
                 return null;
+        }finally {
+            close(rs);
+            close(ps);
+        }
+    }
+    
+    
+    public List<Curso> loadall(Connection conn) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = conn.prepareStatement(SQL_SELECT_ALL);
+            rs = ps.executeQuery();
+            List results = getResults(rs);
+            return results;
         }finally {
             close(rs);
             close(ps);

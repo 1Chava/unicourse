@@ -10,6 +10,7 @@ package dao4j.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import dao4j.*;
+import java.util.List;
 
 /**
  * This interface provides methods to populate DB Table of curso
@@ -30,7 +31,7 @@ public interface CursoDAO {
      * @exception       SQLException if something is wrong.
      */
     public Curso load(CursoKey key, Connection conn) throws SQLException;
-
+    public List<Curso> loadall(Connection conn) throws SQLException;
     /**
      * Update a record in Database.
      * @param bean   The Object to be saved.

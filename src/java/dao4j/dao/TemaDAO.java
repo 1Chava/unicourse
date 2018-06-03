@@ -10,6 +10,7 @@ package dao4j.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import dao4j.*;
+import java.util.List;
 
 /**
  * This interface provides methods to populate DB Table of tema
@@ -30,6 +31,7 @@ public interface TemaDAO {
      * @exception       SQLException if something is wrong.
      */
     public Tema load(TemaKey key, Connection conn) throws SQLException;
+    public List<Tema> loadall(Connection conn) throws SQLException;
 
     /**
      * Update a record in Database.

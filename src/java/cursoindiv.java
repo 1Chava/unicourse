@@ -4,26 +4,27 @@
  * and open the template in the editor.
  */
 
+import dao4j.Curso;
+import dao4j.Tema;
+import dao4j.dao.TemaDAO;
+import dao4j.orm.TemaDAOImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao4j.Usuario;
-import dao4j.dao.UsuarioDAO;
-import dao4j.orm.UsuarioDAOImpl;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Rodrigo
  */
-@WebServlet(urlPatterns = {"/userservlet"})
-public class Userlogin extends HttpServlet {
+public class cursoindiv extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,29 +38,25 @@ public class Userlogin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-            Usuario u = new Usuario();
-            UsuarioDAO ud = new UsuarioDAOImpl();
-            String usern = request.getParameter("username");
-            String passw = request.getParameter("password");
-            u.setUsername(usern);
-            u.setPassword(passw);
-            Conex con = new Conex();
-            Usuario login = ud.loadlog(u, con.obtenerConexion());
-            if(login!=null){
-                     response.sendRedirect("Cursos"); 
-            }else{
-                response.sendRedirect("loginfallo.html");
-            }
-
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            TemaDAO td = new TemaDAOImpl();
+            List<Tema> lt = new ArrayList<Tema>();
+            Conex con = new Conex();
+            lt=td.loadall(con.obtenerConexion());
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet userservlet</title>");            
+            out.println("<title>Servlet cursoindiv</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet userservlet at " + request.getContextPath() + "</h1>");
+            out.println("<table align=center>");
+            out.println("<th>Temas</th>");
+            
+            lt.forEach((Tema tt) -> {
+                out.println("<tr><td><a href=temaindiv>"+tt.getNombre()+"</a></td></tr>");
+            });
+            out.println("</table>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -80,9 +77,9 @@ public class Userlogin extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Userlogin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cursoindiv.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Userlogin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cursoindiv.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -100,9 +97,9 @@ public class Userlogin extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Userlogin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cursoindiv.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(Userlogin.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cursoindiv.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
